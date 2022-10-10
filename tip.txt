@@ -3,3 +3,14 @@
 3. typeScript는 매개변수 리턴값 변수
 4. k=flex 1 100% , (a = flex 1 , b = flex 1  ==== 50%:50%)
 
+
+Modal
+return(
+    component1
+    component2
+    modalComponent3
+)
+
+가장 밑에 있는 modalComponent3 가 컴포넌트1,2를 덮게된디ㅏ. 
+가장 아래에 있는 컴포넌트가 최상위로 쌓이게 된다.
+모달은 기존 컴포넌트 위를 덮는 형태이므로 가장 아래에 위치해야 한다.(positon="absolute")

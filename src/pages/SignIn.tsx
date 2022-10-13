@@ -1,6 +1,5 @@
 import {
   Alert,
-  Button,
   Pressable,
   StyleSheet,
   Text,
@@ -107,7 +106,7 @@ const SignIn = ({navigation}: SignInScreenProps) => {
           <Text>회원가입</Text>
         </Pressable>
       </View>
-    </Diss>
+    </DismissKeyboardView>
   );
 };
 

@@ -16,3 +16,7 @@ return(
 모달은 기존 컴포넌트 위를 덮는 형태이므로 가장 아래에 위치해야 한다.(positon="absolute")
 
 child가 1개여야만 한다는 에러가 뜰 경우 Tab.Group를 사용하여 묶어주면 된다.
+
+Redux
+ - slice가 모여서 reducer가 되고 reducer가 모여서 store 가 된다. 
+ - provider 밖에서는 useSelector를 사용할 수 없다. 

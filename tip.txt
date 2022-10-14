@@ -20,3 +20,7 @@ child가 1개여야만 한다는 에러가 뜰 경우 Tab.Group를 사용하여 
 Redux
  - slice가 모여서 reducer가 되고 reducer가 모여서 store 가 된다. 
  - provider 밖에서는 useSelector를 사용할 수 없다. 
+
+ Async await
+ - useEffect는 콜백함수를 리턴하므로 aysnc await 사용불가
+ - useCallback은 사용가능

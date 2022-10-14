@@ -12,10 +12,12 @@ import {
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 import DismissKeyboardView from '../components/DismissKeyboardView';
+import axios, {Axios, AxiosError} from 'axios';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 function SignUp({navigation}: SignUpScreenProps) {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +34,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangePassword = useCallback((text: any) => {
     setPassword(text.trim());
   }, []);
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!email || !email.trim()) {
       return Alert.alert('알림', '이메일을 입력해주세요.');
     }
@@ -57,6 +59,23 @@ function SignUp({navigation}: SignUpScreenProps) {
       );
     }
     console.log(email, name, password);
+
+    try {
+      setLoading(true);
+      // http method :  get , delete는 데이터 입력불가 . put,patch,post,option
+      const response = await axios.post('/user', {email, name, password});
+      console.log(response);
+      Alert.alert('회원가입이 완료되었습니다.');
+    } catch (error) {
+      const errorResponse = (error as AxiosError).response;
+      console.error(errorResponse);
+      if (errorResponse) {
+        Alert.alert(errorResponse.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+
     Alert.alert('알림', '회원가입 되었습니다.');
   }, [email, name, password]);
 
@@ -120,7 +139,7 @@ function SignUp({navigation}: SignUpScreenProps) {
               ? StyleSheet.compose(styles.loginButton, styles.loginButtonActive)
               : styles.loginButton
           }
-          disabled={!canGoNext}
+          disabled={!canGoNext || loading}
           onPress={onSubmit}>
           <Text style={styles.loginButtonText}>회원가입</Text>
         </Pressable>

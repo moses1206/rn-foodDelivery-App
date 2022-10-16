@@ -1,7 +1,6 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
   Alert,
-  KeyboardAvoidingView,
   Platform,
   Pressable,
   StyleSheet,
@@ -12,7 +11,7 @@ import {
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 import DismissKeyboardView from '../components/DismissKeyboardView';
-import axios, {Axios, AxiosError} from 'axios';
+import axios, {AxiosError} from 'axios';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -35,6 +34,11 @@ function SignUp({navigation}: SignUpScreenProps) {
     setPassword(text.trim());
   }, []);
   const onSubmit = useCallback(async () => {
+    // 로딩중이면 submit 중단
+    if (loading) {
+      return;
+    }
+
     if (!email || !email.trim()) {
       return Alert.alert('알림', '이메일을 입력해주세요.');
     }
@@ -70,7 +74,7 @@ function SignUp({navigation}: SignUpScreenProps) {
       const errorResponse = (error as AxiosError).response;
       console.error(errorResponse);
       if (errorResponse) {
-        Alert.alert(errorResponse.data.message);
+        // Alert.alert(errorResponse.data.message);
       }
     } finally {
       setLoading(false);
@@ -82,7 +86,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const canGoNext = email && name && password;
   return (
     // KeyboardAvoidingView:입력시 키보드가 인풋을 가리는 것을 방지
-    <DismissKeyboardView behavior="position">
+    <DismissKeyboardView>
       <View style={styles.inputWrapper}>
         <Text style={styles.label}>이메일</Text>
         <TextInput

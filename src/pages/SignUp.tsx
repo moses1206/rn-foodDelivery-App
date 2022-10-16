@@ -1,5 +1,6 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
+  ActivityIndicator,
   Alert,
   Platform,
   Pressable,
@@ -12,6 +13,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import axios, {AxiosError} from 'axios';
+import Config from 'react-native-config';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -33,8 +35,10 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangePassword = useCallback((text: any) => {
     setPassword(text.trim());
   }, []);
+
+  // Submit Logic
   const onSubmit = useCallback(async () => {
-    // 로딩중이면 submit 중단
+    // 로딩중이면 중복클릭을 막기위해
     if (loading) {
       return;
     }
@@ -66,22 +70,28 @@ function SignUp({navigation}: SignUpScreenProps) {
 
     try {
       setLoading(true);
+      console.log(Config.API_URL);
       // http method :  get , delete는 데이터 입력불가 . put,patch,post,option
-      const response = await axios.post('/user', {email, name, password});
+      const response = await axios.post(`${Config.API_URL}/user`, {
+        email,
+        name,
+        password, // hash화 , 일방향 암호화
+      });
       console.log(response);
       Alert.alert('회원가입이 완료되었습니다.');
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
-      console.error(errorResponse);
+      console.error();
       if (errorResponse) {
-        // Alert.alert(errorResponse.data.message);
+        Alert.alert(errorResponse.data.message);
       }
     } finally {
       setLoading(false);
     }
 
     Alert.alert('알림', '회원가입 되었습니다.');
-  }, [email, name, password]);
+    navigation.navigate('SignIn');
+  }, [email, name, password, loading, navigation]);
 
   const canGoNext = email && name && password;
   return (
@@ -143,9 +153,15 @@ function SignUp({navigation}: SignUpScreenProps) {
               ? StyleSheet.compose(styles.loginButton, styles.loginButtonActive)
               : styles.loginButton
           }
+          // disable=loading 을 통해서 submit 을 누르면 다시 못누르도록 비활성화하여
+          // 중복 클릭을 방지한다.
           disabled={!canGoNext || loading}
           onPress={onSubmit}>
-          <Text style={styles.loginButtonText}>회원가입</Text>
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={styles.loginButtonText}>회원가입</Text>
+          )}
         </Pressable>
       </View>
     </DismissKeyboardView>

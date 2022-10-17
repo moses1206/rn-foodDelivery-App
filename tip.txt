@@ -24,3 +24,12 @@ Redux
  Async await
  - useEffect는 콜백함수를 리턴하므로 aysnc await 사용불가
  - useCallback은 사용가능
+
+
+Config URL
+ - android : http://10.0.2.2:3105 
+ - iso : http://localhost:3105
+
+Token 저장
+ - async storage : 앱을 껏다가 켜도 계속해서 저장되어 있는 공간
+ - EncryptedStorage

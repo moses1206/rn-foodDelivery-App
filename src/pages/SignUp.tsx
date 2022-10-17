@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../App';
+import {RootStackParamList} from '../../AppInner';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
@@ -70,7 +70,7 @@ function SignUp({navigation}: SignUpScreenProps) {
 
     try {
       setLoading(true);
-      console.log(Config.API_URL);
+      console.log('Config_API_URL', Config.API_URL);
       // http method :  get , delete는 데이터 입력불가 . put,patch,post,option
       const response = await axios.post(`${Config.API_URL}/user`, {
         email,

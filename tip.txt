@@ -48,3 +48,5 @@ Web soket I.O
  - socket.emit('login', 'hello'); 데이터 보내기
    socket.on('hello', helloCallback); 데이터 받기
    socket.off('hello', helloCallback) 소켓 종료하기
+
+typeScript  any or unKnown 으로 보이면 타입스크립트가 추론을 못하는 것이다.

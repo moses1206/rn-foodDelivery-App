@@ -1,21 +1,66 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-const initialState = {
-  name: '',
-  email: '',
-  accessToken: '',
+// 객체 타이핑 interface
+export interface Order {
+  orderId: string;
+  start: {
+    latitude: number;
+    longitude: number;
+  };
+  end: {
+    latitude: number;
+    logitude: number;
+  };
+  price: number;
+}
+
+interface InitialState {
+  orders: Order[];
+  deliveries: Order[];
+}
+
+const initialState: InitialState = {
+  orders: [],
+  deliveries: [],
 };
-const userSlice = createSlice({
-  name: 'user',
+
+const orderSlice = createSlice({
+  name: 'order',
   initialState,
   reducers: {
-    setUser(state, action) {
-      state.email = action.payload.email;
-      state.name = action.payload.name;
-      state.accessToken = action.payload.accessToken;
+    addOrder(state, action: PayloadAction<Order>) {
+      state.orders.push(action.payload);
+    },
+    // 선택한 오더를 deliveries 로 이동시키는 로직
+    acceptOrder(state, action: PayloadAction<string>) {
+      const index = state.orders.findIndex(v => v.orderId === action.payload);
+      // index가 -1보다 크다는 것은 있다는 의미
+      if (index > -1) {
+        // deliveries 추가
+        state.deliveries.push(state.orders[index]);
+        // orders 삭제
+        state.orders.splice(index, 1);
+      }
+    },
+    rejectOrder(state, action) {
+      const orderIndex = state.orders.findIndex(
+        v => v.orderId === action.payload,
+      );
+      if (orderIndex > -1) {
+        // orders 삭제
+        state.orders.splice(orderIndex, 1);
+      }
+
+      const deliveryIndex = state.deliveries.findIndex(
+        v => v.orderId === action.payload,
+      );
+
+      if (deliveryIndex > -1) {
+        state.deliveries.splice(deliveryIndex, 1);
+      }
     },
   },
   extraReducers: builder => {},
 });
 
-export default userSlice;
+export default orderSlice;

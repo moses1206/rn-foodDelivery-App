@@ -55,11 +55,11 @@ function SignIn({navigation}: SignInScreenProps) {
         userSlice.actions.setUser({
           name: response.data.data.name,
           email: response.data.data.email,
-          accessToken: response.data.data.accessToken,
+          accessToken: response.data.data.accessToken, //유효기간 10분 3일 3개월
         }),
       );
       await EncryptedStorage.setItem(
-        'refreshToken',
+        'refreshToken', //30분후 로그인이 풀립니다. 연장하시겠습니까?
         response.data.data.refreshToken,
       );
     } catch (error) {

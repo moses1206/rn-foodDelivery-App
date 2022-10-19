@@ -33,3 +33,18 @@ Config URL
 Token 저장
  - async storage : 앱을 껏다가 켜도 계속해서 저장되어 있는 공간
  - EncryptedStorage
+
+
+reducer
+ - reducer:동기액션
+ - extraReducer:비동기액션
+ - action : state를 바꾸는 행위
+ - dispatch : action을 실행하는 함수
+ - reducer : 액션이 실행되면 state를 바꾸는 로직
+
+
+Web soket I.O
+ - 실시간 서버통신
+ - socket.emit('login', 'hello'); 데이터 보내기
+   socket.on('hello', helloCallback); 데이터 받기
+   socket.off('hello', helloCallback) 소켓 종료하기

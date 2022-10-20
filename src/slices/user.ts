@@ -9,6 +9,7 @@ const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
+  // 동기 리듀서
   reducers: {
     setUser(state, action) {
       state.email = action.payload.email;
@@ -19,6 +20,7 @@ const userSlice = createSlice({
       state.money = action.payload;
     },
   },
+  // 비동기 리듀서
   extraReducers: builder => {},
 });
 

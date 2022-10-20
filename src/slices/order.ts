@@ -33,6 +33,7 @@ const orderSlice = createSlice({
     },
     // 선택한 오더를 deliveries 로 이동시키는 로직
     acceptOrder(state, action: PayloadAction<string>) {
+      // payload는 OrderId(String)이다. OrderId를 통해 찾아서 deliveries로 옮겨준디
       const index = state.orders.findIndex(v => v.orderId === action.payload);
       // index가 -1보다 크다는 것은 있다는 의미
       if (index > -1) {

@@ -50,3 +50,38 @@ Web soket I.O
    socket.off('hello', helloCallback) 소켓 종료하기
 
 typeScript  any or unKnown 으로 보이면 타입스크립트가 추론을 못하는 것이다.
+
+navigation : 스크린이랑 연결된 컴포넌트들은 props에 navigation을 가진다. 연결되지 않은 화면에는 navigation이 없다.
+  로그인 한 상태에서의 타입은 LoggedInParamList 안한 타입은 RootStackParamList 이다.
+  const navigation = useNavigation<NavigationProp<LoggedInParamList>>();
+
+<Tab.Navigator>
+    <Tab.Screen
+      name="Orders"
+      component={Orders}
+      options={{title: '오더 목록'}}
+    />
+    <Tab.Screen
+      name="Delivery"
+      component={Delivery}
+      options={{headerShown: false}}
+    />
+    <Tab.Screen
+      name="Settings"
+      component={Settings}
+      options={{title: '내 정보'}}
+    />
+  </Tab.Navigator>
+  ) : (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="SignIn"
+      component={SignIn}
+      options={{title: '로그인'}}
+    />
+    <Stack.Screen
+      name="SignUp"
+      component={SignUp}
+      options={{title: '회원가입'}}
+    />
+  </Stack.Navigator>
